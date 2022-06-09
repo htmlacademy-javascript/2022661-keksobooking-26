@@ -1,18 +1,28 @@
 // Возвращает случайное число в диапозоне, если не указано количество знаков после запятой, то возвращает целое
 function getRandomNumber(min, max, decimalCount = 0) {
-  const isCorrectRange = min < max && min >= 0 && max >= 0;
-  const isCorrectDecimalCount = decimalCount >= 0 && decimalCount < 100;
-  let message = 'Результат: ';
-  if (isCorrectRange && isCorrectDecimalCount) {
+  let result;
+  try {
+    if (min === max) {
+      return min;
+    }
+    if (min > max) {
+      const tmp = max;
+      max = min;
+      min = tmp;
+    }
+    if (min < 0) {
+      min = min * -1;
+    }
+    if (max < 0) {
+      max = max * -1;
+    }
     // Формула генерации взята с https://myrusakov.ru/js-random-numbers.html
     const randomNumber = Math.random() * (max - min) + min;
-    message += randomNumber.toFixed(decimalCount);
-  } else if (min === max) {
-    message += min;
-  } else {
-    message = 'Диапозон или количество знаков после запятой указаны некорректно';
+    result = randomNumber.toFixed(decimalCount);
+  } catch (error) {
+    result = 'Диапозон или количество знаков после запятой указаны некорректно';
   }
-  return message;
+  return result;
 }
 
 getRandomNumber(10, 20);
