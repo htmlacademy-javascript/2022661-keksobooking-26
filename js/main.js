@@ -82,4 +82,4 @@ const createAdd = () => {
 
 const adds = Array.from({length:ADDS_COUNT}, createAdd);
 
-console.log(adds);
+createAdd(adds);
