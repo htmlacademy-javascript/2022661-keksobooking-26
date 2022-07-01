@@ -32,7 +32,7 @@ const createAdd = () => {
     checkin: getRandomArrayElement(CHECK_TIMES),
     checkout: getRandomArrayElement(CHECK_TIMES),
     features: getRandomArrayPart(HOUSE_FEATURES),
-    description: 'Просторные уютные комнаты придутся вам по душе',
+    description: 'Просторные и уютные комнаты придутся вам по душе',
     photos: getRandomArrayPart(HOUSE_PHOTOS),
   };
   return {
