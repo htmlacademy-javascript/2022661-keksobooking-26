@@ -10,7 +10,7 @@ const HOUSE_PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
-const ADDS_COUNT = 10;
+const ADDS_COUNT = 1;
 let authorId = 1;
 
 const createAdd = () => {
@@ -32,7 +32,7 @@ const createAdd = () => {
     checkin: getRandomArrayElement(CHECK_TIMES),
     checkout: getRandomArrayElement(CHECK_TIMES),
     features: getRandomArrayPart(HOUSE_FEATURES),
-    description: 'Просторные уютные комнаты придутся вам по душе',
+    description: 'Просторные и уютные комнаты придутся вам по душе',
     photos: getRandomArrayPart(HOUSE_PHOTOS),
   };
   return {
