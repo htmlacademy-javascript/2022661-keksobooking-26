@@ -16,24 +16,23 @@ const TYPES_OF_HOUSE_ON_RUSSIAN = {
   hotel: 'Отель'
 };
 
+const OBJECT_FIELD_MAP = {
+  title: '.popup__title',
+  address: '.popup__text--address',
+  price: '.js-popup__text--price',
+  description: '.popup__description',
+};
+
 similarAdd.forEach(({author, offer}) => {
   const addElement = addTemplate.cloneNode(true);
-  if (offer.title) {
-    addElement.querySelector('.popup__title').textContent = offer.title;
-  } else {
-    addElement.querySelector('.popup__title').remove();
-  }
-
-  if (offer.address) {
-    addElement.querySelector('.popup__text--address').textContent = offer.address;
-  } else {
-    addElement.querySelector('.popup__text--address').remove();
-  }
-
-  if (offer.price) {
-    addElement.querySelector('.js-popup__text--price').textContent = offer.price;
-  } else {
-    addElement.querySelector('.js-popup__text--price').remove();
+  for(const key in OBJECT_FIELD_MAP) {
+    const value = offer[key];
+    const addElementItem= addElement.querySelector(OBJECT_FIELD_MAP[key]);
+    if(value) {
+      addElementItem.textContent = value;
+    } else {
+      addElementItem.remove();
+    }
   }
 
   if (offer.type) {
@@ -70,12 +69,6 @@ similarAdd.forEach(({author, offer}) => {
     });
   } else {
     featuresContainer.remove();
-  }
-
-  if (offer.description) {
-    addElement.querySelector('.popup__description').textContent = offer.description;
-  } else {
-    addElement.querySelector('.popup__description').remove();
   }
 
   const photoContainer = addElement.querySelector('.popup__photos');
