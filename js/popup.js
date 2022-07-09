@@ -97,3 +97,5 @@ similarAdd.forEach(({author, offer}) => {
 
   map.appendChild(addElement);
 });
+
+export {TYPES_OF_HOUSE_ON_RUSSIAN};

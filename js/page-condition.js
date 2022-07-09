@@ -4,7 +4,7 @@ const conditionOffHandler = function (className) {
     const formFields = formContainer.children;
     formContainer.classList.add(`${className}--disabled`);
 
-    for (let i = 0; i <= formFields.length; i++ ) {
+    for (let i = 0; i < formFields.length; i++ ) {
       const formField = formFields[i];
       formField.setAttribute('disabled', 'disabled');
     }
@@ -23,7 +23,7 @@ const conditionOnHandler = function (className) {
       formContainer.classList.remove(`${className}--disabled`);
     }
 
-    for (let i = 0; i <= formFields.length; i++ ) {
+    for (let i = 0; i < formFields.length; i++ ) {
       const formField = formFields[i];
       if (formField.hasAttribute('disabled')) {
         formField.removeAttribute('disabled');
