@@ -6,6 +6,8 @@ const typeOfHouseField = form.querySelector('[name="type"]');
 const roomsField = form.querySelector('[name="rooms"]');
 const capacityField = form.querySelector('[name="capacity"]');
 const submitButton= form.querySelector('.ad-form__submit');
+const timeInField = form.querySelector('[name="timein"]');
+const timeOutField = form.querySelector('[name="timeout"]');
 
 const roomsOption = {
   '1': ['1'],
@@ -111,6 +113,26 @@ capacityField.addEventListener('change', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
+
+// Валидация времени выезда и заезда
+function timeInHandler () {
+  if (timeInField.value !== timeOutField.value) {
+    const propertyTime = timeInField.value;
+    timeOutField.value = propertyTime;
+  }
+  pristine.validate(timeInField);
+}
+
+function timeOutHandler () {
+  if (timeOutField.value !== timeInField.value) {
+    const propertyTime = timeOutField.value;
+    timeInField.value = propertyTime;
+  }
+  pristine.validate(timeOutField);
+}
+
+timeInField.addEventListener('change', timeInHandler);
+timeOutField.addEventListener('change', timeOutHandler);
 
 //Oтправка формы
 submitButton.addEventListener('click', () => {
