@@ -69,7 +69,6 @@ function getMinPriceErrorMessage () {
 
 function minPriceHandler () {
   priceField.placeholder = minPrice[this.value];
-  pristine.validate(priceField);
 }
 
 pristine.addValidator(priceField, validateMinPrice, getMinPriceErrorMessage);
@@ -99,42 +98,29 @@ function getRoomsErrorMessage() {
 pristine.addValidator(roomsField, validateRooms, getRoomsErrorMessage);
 pristine.addValidator(capacityField, validateRooms);
 
+roomsField.addEventListener('change', (evt) => {
+  evt.preventDefault();
+});
+
+capacityField.addEventListener('change', (evt) => {
+  evt.preventDefault();
+});
+
+// Валидация времени выезда и заезда
+function timeHandler(evt) {
+  timeInField.value = evt.target.value;
+  timeOutField.value = evt.target.value;
+}
+
+timeInField.addEventListener('change', timeHandler);
+timeOutField.addEventListener('change', timeHandler);
+
+//Oтправка формы
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
 
-roomsField.addEventListener('change', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
-
-capacityField.addEventListener('change', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
-
-// Валидация времени выезда и заезда
-function timeInHandler () {
-  if (timeInField.value !== timeOutField.value) {
-    const propertyTime = timeInField.value;
-    timeOutField.value = propertyTime;
-  }
-  pristine.validate(timeInField);
-}
-
-function timeOutHandler () {
-  if (timeOutField.value !== timeInField.value) {
-    const propertyTime = timeOutField.value;
-    timeInField.value = propertyTime;
-  }
-  pristine.validate(timeOutField);
-}
-
-timeInField.addEventListener('change', timeInHandler);
-timeOutField.addEventListener('change', timeOutHandler);
-
-//Oтправка формы
 submitButton.addEventListener('click', () => {
   if (pristine.validate()) {
     form.submit();
