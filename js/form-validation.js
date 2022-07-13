@@ -6,6 +6,8 @@ const typeOfHouseField = form.querySelector('[name="type"]');
 const roomsField = form.querySelector('[name="rooms"]');
 const capacityField = form.querySelector('[name="capacity"]');
 const submitButton= form.querySelector('.ad-form__submit');
+const timeInField = form.querySelector('[name="timein"]');
+const timeOutField = form.querySelector('[name="timeout"]');
 
 const roomsOption = {
   '1': ['1'],
@@ -67,7 +69,6 @@ function getMinPriceErrorMessage () {
 
 function minPriceHandler () {
   priceField.placeholder = minPrice[this.value];
-  pristine.validate(priceField);
 }
 
 pristine.addValidator(priceField, validateMinPrice, getMinPriceErrorMessage);
@@ -97,22 +98,29 @@ function getRoomsErrorMessage() {
 pristine.addValidator(roomsField, validateRooms, getRoomsErrorMessage);
 pristine.addValidator(capacityField, validateRooms);
 
+roomsField.addEventListener('change', (evt) => {
+  evt.preventDefault();
+});
+
+capacityField.addEventListener('change', (evt) => {
+  evt.preventDefault();
+});
+
+// Валидация времени выезда и заезда
+function timeHandler(evt) {
+  timeInField.value = evt.target.value;
+  timeOutField.value = evt.target.value;
+}
+
+timeInField.addEventListener('change', timeHandler);
+timeOutField.addEventListener('change', timeHandler);
+
+//Oтправка формы
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   pristine.validate();
 });
 
-roomsField.addEventListener('change', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
-
-capacityField.addEventListener('change', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
-
-//Oтправка формы
 submitButton.addEventListener('click', () => {
   if (pristine.validate()) {
     form.submit();
