@@ -34,7 +34,6 @@ const pristine = new Pristine(form, {
 });
 
 // Валидация заголовка
-
 function validateTitle (value) {
   return value.length >= 30 && value.length <= 100;
 }
@@ -126,3 +125,5 @@ submitButton.addEventListener('click', () => {
     form.submit();
   }
 });
+
+export {form};
