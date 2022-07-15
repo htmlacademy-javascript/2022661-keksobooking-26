@@ -9,14 +9,16 @@ const submitButton= form.querySelector('.ad-form__submit');
 const timeInField = form.querySelector('[name="timein"]');
 const timeOutField = form.querySelector('[name="timeout"]');
 
-const roomsOption = {
+const priceSliderElement = document.querySelector('.ad-form__slider');
+
+const ROOMS_OPTIONS = {
   '1': ['1'],
   '2': ['2', '1'],
   '3': ['3', '2', '1'],
   '100': ['0'],
 };
 
-const minPrice = {
+const MIN_PRICES = {
   'bungalow': 0,
   'flat': 1000,
   'hotel': 3000,
@@ -34,10 +36,7 @@ const pristine = new Pristine(form, {
 });
 
 // Валидация заголовка
-
-function validateTitle (value) {
-  return value.length >= 30 && value.length <= 100;
-}
+const validateTitle = (value) => value.length >= 30 && value.length <= 100;
 
 pristine.addValidator(
   form.querySelector('#title'),
@@ -45,41 +44,56 @@ pristine.addValidator(
   'Заголовок должен быть от 30 до 100 символов'
 );
 
-// Валидация цены
-function validatePrice (value) {
-  return value >= 0 && value <= 100000;
-}
+noUiSlider.create(priceSliderElement,{
+  range: {
+    min: 0,
+    max: 100000,
+  },
+  start: 0,
+  step: 1,
+  connect: 'lower',
+  format: {
+    to: function (value) {
+      return value.toFixed(0);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
+});
 
-pristine.addValidator(
-  priceField,
-  validatePrice,
-  'Введите значение от 0 до 100 000р.'
-);
+priceSliderElement.noUiSlider.on('slide', () => {
+  priceField.value = priceSliderElement.noUiSlider.get();
+  pristine.validate(priceField);
+});
 
-function validateMinPrice (value) {
-  return value >= minPrice[typeOfHouseField.value];
-}
+priceField.addEventListener('change', (evt) => {
+  priceSliderElement.noUiSlider.set(evt.target.value);
+  pristine.validate(priceSliderElement);
+});
 
-function getMinPriceErrorMessage () {
-  return `
+//Валидация минимальной цены
+const validateMinPrice = (value) => value >= MIN_PRICES[typeOfHouseField.value];
+
+const getMinPriceErrorMessage = () => `
     Мин. цена за ${TYPES_OF_HOUSE_ON_RUSSIAN[typeOfHouseField.value] === 'Квартира' ? 'квартиру' : TYPES_OF_HOUSE_ON_RUSSIAN[typeOfHouseField.value].toLowerCase()}
-    должна быть не менее ${minPrice[typeOfHouseField.value]}р.
-  `;
-}
+    должна быть не менее ${MIN_PRICES[typeOfHouseField.value]}р.
+`;
 
-function minPriceHandler () {
-  priceField.placeholder = minPrice[this.value];
+function minPriseHandler () {
+  if (priceField.value) {
+    pristine.validate(priceField);
+  }
+  priceField.placeholder = MIN_PRICES[this.value];
 }
 
 pristine.addValidator(priceField, validateMinPrice, getMinPriceErrorMessage);
-typeOfHouseField.addEventListener('change', minPriceHandler);
+typeOfHouseField.addEventListener('change', minPriseHandler);
 
 // Валидация количества комнат
-function validateRooms () {
-  return roomsOption[roomsField.value].includes(capacityField.value);
-}
+const validateRooms = () => ROOMS_OPTIONS[roomsField.value].includes(capacityField.value);
 
-function getRoomsErrorMessage() {
+const getRoomsErrorMessage = () => {
   if (capacityField.value === '0') {
     return `
     Данное количество комнат недоступно для варианта "не для гостей"
@@ -93,24 +107,26 @@ function getRoomsErrorMessage() {
       Данное количество комнат недоступно для ${capacityField.value} гостей
       `;
   }
-}
+};
 
 pristine.addValidator(roomsField, validateRooms, getRoomsErrorMessage);
 pristine.addValidator(capacityField, validateRooms);
 
 roomsField.addEventListener('change', (evt) => {
   evt.preventDefault();
+  pristine.validate(roomsField);
 });
 
 capacityField.addEventListener('change', (evt) => {
   evt.preventDefault();
+  pristine.validate(roomsField);
 });
 
 // Валидация времени выезда и заезда
-function timeHandler(evt) {
+const timeHandler = (evt) => {
   timeInField.value = evt.target.value;
   timeOutField.value = evt.target.value;
-}
+};
 
 timeInField.addEventListener('change', timeHandler);
 timeOutField.addEventListener('change', timeHandler);
@@ -126,3 +142,5 @@ submitButton.addEventListener('click', () => {
     form.submit();
   }
 });
+
+export {form};

@@ -1,12 +1,10 @@
 import {createAdds} from './data.js';
 
-const map = document.querySelector('.map__canvas');
-
 const addTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
 
-const similarAdd = createAdds();
+const similarAdds = createAdds();
 
 const TYPES_OF_HOUSE_ON_RUSSIAN = {
   palace: 'Дворец',
@@ -23,10 +21,11 @@ const OBJECT_FIELD_MAP = {
   description: '.popup__description',
 };
 
-similarAdd.forEach(({author, offer}) => {
+const createSimilarAddsPopap = (similarAdd) => {
+  const {offer,author} = similarAdd;
   const addElement = addTemplate.cloneNode(true);
   for(const key in OBJECT_FIELD_MAP) {
-    const value = offer[key];
+    const value = similarAdd.offer[key];
     const addElementItem= addElement.querySelector(OBJECT_FIELD_MAP[key]);
     if(value) {
       addElementItem.textContent = value;
@@ -95,7 +94,9 @@ similarAdd.forEach(({author, offer}) => {
     addElement.querySelector('.popup__avatar').remove();
   }
 
-  map.appendChild(addElement);
-});
+  return addElement;
+};
 
 export {TYPES_OF_HOUSE_ON_RUSSIAN};
+export {similarAdds};
+export {createSimilarAddsPopap};

@@ -1,5 +1,5 @@
 // Возвращает случайное число в диапозоне, если не указано количество знаков после запятой, то возвращает целое
-function getRandomNumber(min, max, decimalCount = 0) {
+const getRandomNumber = (min, max, decimalCount = 0) => {
   let result;
   try {
     if (min === max) {
@@ -23,7 +23,7 @@ function getRandomNumber(min, max, decimalCount = 0) {
     result = 'Диапозон или количество знаков после запятой указаны некорректно';
   }
   return result;
-}
+};
 
 const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 const getRandomArrayPart = (elements) => {
