@@ -1,15 +1,18 @@
 import {TYPES_OF_HOUSE_ON_RUSSIAN} from './popup.js';
+import {resetMainMarker} from './map.js';
+import {sendData} from './api.js';
 
 const form = document.querySelector('.ad-form');
 const priceField = form.querySelector('#price');
 const typeOfHouseField = form.querySelector('[name="type"]');
 const roomsField = form.querySelector('[name="rooms"]');
 const capacityField = form.querySelector('[name="capacity"]');
-const submitButton= form.querySelector('.ad-form__submit');
 const timeInField = form.querySelector('[name="timein"]');
 const timeOutField = form.querySelector('[name="timeout"]');
-
 const priceSliderElement = document.querySelector('.ad-form__slider');
+const adressField = form.querySelector('[name="address"]');
+const resetButton = form.querySelector('.ad-form__reset');
+const submitButton = form.querySelector('.ad-form__submit');
 
 const ROOMS_OPTIONS = {
   '1': ['1'],
@@ -44,6 +47,7 @@ pristine.addValidator(
   'Заголовок должен быть от 30 до 100 символов'
 );
 
+// Валидация слайдера
 noUiSlider.create(priceSliderElement,{
   range: {
     min: 0,
@@ -72,7 +76,13 @@ priceField.addEventListener('change', (evt) => {
   pristine.validate(priceSliderElement);
 });
 
-//Валидация минимальной цены
+const resetPriceSlider = () => {
+  priceSliderElement.noUiSlider.updateOptions({
+    start: 0
+  });
+};
+
+// Валидация минимальной цены
 const validateMinPrice = (value) => value >= MIN_PRICES[typeOfHouseField.value];
 
 const getMinPriceErrorMessage = () => `
@@ -131,16 +141,46 @@ const timeHandler = (evt) => {
 timeInField.addEventListener('change', timeHandler);
 timeOutField.addEventListener('change', timeHandler);
 
-//Oтправка формы
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
+// Oтправка формы
+const blockSubmitButton = () => {
+  submitButton.setAttribute('disabled', 'disabled');
+  submitButton.textContent = 'Сохраняю...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.removeAttribute('disabled');
+  submitButton.textContent = 'Опубликовать';
+};
+
+const setUserFormSubmit = (onSuccess, onFail) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          onSuccess();
+          evt.target.reset();
+          resetPriceSlider();
+          resetMainMarker();
+          unblockSubmitButton();
+        },
+        () => {
+          onFail();
+          unblockSubmitButton();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+};
+
+// Очистка формы по кнопке
+resetButton.addEventListener('click', () => {
+  resetPriceSlider();
+  resetMainMarker();
 });
 
-submitButton.addEventListener('click', () => {
-  if (pristine.validate()) {
-    form.submit();
-  }
-});
-
-export {form};
+export {adressField, setUserFormSubmit};

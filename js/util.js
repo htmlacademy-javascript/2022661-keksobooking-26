@@ -1,3 +1,5 @@
+const ALERT_SHOW_TIME = 5000;
+
 // Возвращает случайное число в диапозоне, если не указано количество знаков после запятой, то возвращает целое
 const getRandomNumber = (min, max, decimalCount = 0) => {
   let result;
@@ -39,6 +41,27 @@ const getRandomArrayPart = (elements) => {
   return elements.slice(start, end);
 };
 
-export {getRandomNumber};
-export {getRandomArrayElement};
-export {getRandomArrayPart};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const showAlert = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = '1000';
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = '0';
+  alertContainer.style.top = '100px';
+  alertContainer.style.right = '0';
+  alertContainer.style.padding = '10px 5px';
+  alertContainer.style.fontSize = '25px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+};
+
+export {getRandomNumber, getRandomArrayElement, getRandomArrayPart, isEscapeKey, showAlert};
