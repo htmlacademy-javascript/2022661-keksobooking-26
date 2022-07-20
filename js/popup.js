@@ -1,10 +1,6 @@
-import {createAdds} from './data.js';
-
 const addTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
-
-const similarAdds = createAdds();
 
 const TYPES_OF_HOUSE_ON_RUSSIAN = {
   palace: 'Дворец',
@@ -56,7 +52,7 @@ const createSimilarAddsPopap = (similarAdd) => {
   const featuresList = featuresContainer.querySelectorAll('.popup__feature');
   const offerFeatures = offer.features;
 
-  if (offerFeatures.length > 0) {
+  if (offerFeatures) {
     featuresList.forEach((featuresListItem) => {
       const isContains = offerFeatures.some(
         (offerFeature) => featuresListItem.classList.contains(`popup__feature--${offerFeature}`)
@@ -75,7 +71,7 @@ const createSimilarAddsPopap = (similarAdd) => {
 
   const offerPhotos = offer.photos;
 
-  if (offerPhotos.length > 0) {
+  if (offerPhotos) {
     offerPhotos.forEach((photo) => {
       const clonedPhotoItem = photoItem.cloneNode(true);
       clonedPhotoItem.src = photo;
@@ -97,6 +93,4 @@ const createSimilarAddsPopap = (similarAdd) => {
   return addElement;
 };
 
-export {TYPES_OF_HOUSE_ON_RUSSIAN};
-export {similarAdds};
-export {createSimilarAddsPopap};
+export {TYPES_OF_HOUSE_ON_RUSSIAN, createSimilarAddsPopap};
