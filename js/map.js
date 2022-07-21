@@ -1,11 +1,12 @@
 import {conditionOnHandler} from './page-condition.js';
 import {adressField} from './form-validation.js';
-import {createSimilarAddsPopap} from './popup.js';
+import {createSimilarAdsPopap} from './popup.js';
+import { filterAdsOnMap } from './filter.js';
+
 
 const map = L.map('map-canvas')
   .on('load', () => {
     conditionOnHandler('ad-form');
-    conditionOnHandler('map__filters');
   })
   .setView({
     lat: 35.680555,
@@ -55,8 +56,12 @@ const similarIcon = L.icon ({
   iconAnchor: [20, 40],
 });
 
-const renderAdds = (similarAdds) => {
-  similarAdds.forEach((similarAdd) => {
+const markerGroup = L.layerGroup().addTo(map);
+const clearLayersOnMap = () => markerGroup.clearLayers();
+
+const renderAds = (ads) => {
+  ads = filterAdsOnMap(ads);
+  ads.forEach((similarAdd) => {
     const {location} = similarAdd;
     const similarMarker = L.marker(
       {
@@ -69,9 +74,9 @@ const renderAdds = (similarAdds) => {
     );
 
     similarMarker
-      .addTo(map)
-      .bindPopup(createSimilarAddsPopap(similarAdd));
+      .addTo(markerGroup)
+      .bindPopup(createSimilarAdsPopap(similarAdd));
   });
 };
 
-export {renderAdds, resetMainMarker};
+export {renderAds, resetMainMarker, clearLayersOnMap};
