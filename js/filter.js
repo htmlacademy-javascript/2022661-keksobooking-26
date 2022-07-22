@@ -30,7 +30,6 @@ const filterChange = () => {
   renderAds(adsList);
 };
 
-
 const filterAdsOnMap = (ads) => {
   const filteredAds = [];
   for (const ad of ads) {
