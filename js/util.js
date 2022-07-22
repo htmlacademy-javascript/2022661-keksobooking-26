@@ -43,6 +43,8 @@ const getRandomArrayPart = (elements) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
+const RERENDER_DELAY = 500;
+
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '1000';
@@ -64,4 +66,4 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomNumber, getRandomArrayElement, getRandomArrayPart, isEscapeKey, showAlert};
+export {getRandomNumber, getRandomArrayElement, getRandomArrayPart, isEscapeKey, showAlert, RERENDER_DELAY};

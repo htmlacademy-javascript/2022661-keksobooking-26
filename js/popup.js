@@ -1,4 +1,4 @@
-const addTemplate = document.querySelector('#card')
+const adTemplate = document.querySelector('#card')
   .content
   .querySelector('.popup');
 
@@ -17,38 +17,38 @@ const OBJECT_FIELD_MAP = {
   description: '.popup__description',
 };
 
-const createSimilarAddsPopap = (similarAdd) => {
-  const {offer,author} = similarAdd;
-  const addElement = addTemplate.cloneNode(true);
+const createSimilarAdsPopap = (similarAd) => {
+  const {offer,author} = similarAd;
+  const adElement = adTemplate.cloneNode(true);
   for(const key in OBJECT_FIELD_MAP) {
-    const value = similarAdd.offer[key];
-    const addElementItem= addElement.querySelector(OBJECT_FIELD_MAP[key]);
+    const value = similarAd.offer[key];
+    const adElementItem= adElement.querySelector(OBJECT_FIELD_MAP[key]);
     if(value) {
-      addElementItem.textContent = value;
+      adElementItem.textContent = value;
     } else {
-      addElementItem.remove();
+      adElementItem.remove();
     }
   }
 
   if (offer.type) {
-    addElement.querySelector('.popup__type').textContent =  TYPES_OF_HOUSE_ON_RUSSIAN[offer.type];
+    adElement.querySelector('.popup__type').textContent =  TYPES_OF_HOUSE_ON_RUSSIAN[offer.type];
   } else {
-    addElement.querySelector('.popup__type').remove();
+    adElement.querySelector('.popup__type').remove();
   }
 
   if (offer.rooms) {
-    addElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
+    adElement.querySelector('.popup__text--capacity').textContent = `${offer.rooms} комнаты для ${offer.guests} гостей`;
   } else {
-    addElement.querySelector('.popup__text--capacity').remove();
+    adElement.querySelector('.popup__text--capacity').remove();
   }
 
   if (offer.checkin) {
-    addElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+    adElement.querySelector('.popup__text--time').textContent = `Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   } else {
-    addElement.querySelector('.popup__text--time').remove();
+    adElement.querySelector('.popup__text--time').remove();
   }
 
-  const featuresContainer = addElement.querySelector('.popup__features');
+  const featuresContainer = adElement.querySelector('.popup__features');
   const featuresList = featuresContainer.querySelectorAll('.popup__feature');
   const offerFeatures = offer.features;
 
@@ -66,7 +66,7 @@ const createSimilarAddsPopap = (similarAdd) => {
     featuresContainer.remove();
   }
 
-  const photoContainer = addElement.querySelector('.popup__photos');
+  const photoContainer = adElement.querySelector('.popup__photos');
   const photoItem = photoContainer.querySelector('.popup__photo');
 
   const offerPhotos = offer.photos;
@@ -84,13 +84,13 @@ const createSimilarAddsPopap = (similarAdd) => {
   }
 
   if (author.avatar) {
-    addElement.querySelector('.popup__avatar').src = author.avatar;
+    adElement.querySelector('.popup__avatar').src = author.avatar;
   }
   else {
-    addElement.querySelector('.popup__avatar').remove();
+    adElement.querySelector('.popup__avatar').remove();
   }
 
-  return addElement;
+  return adElement;
 };
 
-export {TYPES_OF_HOUSE_ON_RUSSIAN, createSimilarAddsPopap};
+export {TYPES_OF_HOUSE_ON_RUSSIAN, createSimilarAdsPopap};
