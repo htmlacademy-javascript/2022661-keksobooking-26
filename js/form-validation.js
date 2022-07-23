@@ -1,6 +1,7 @@
 import {TYPES_OF_HOUSE_ON_RUSSIAN} from './popup.js';
 import {resetMainMarker} from './map.js';
 import {sendData} from './api.js';
+import {removePhoto} from './photo.js';
 
 const form = document.querySelector('.ad-form');
 const priceField = form.querySelector('#price');
@@ -29,6 +30,9 @@ const MIN_PRICES = {
   'palace': 10000,
 };
 
+const TITLE_MIN_LENGTH = 30;
+const TITLE_MAX_LENGTH = 100;
+
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form__element--invalid',
@@ -39,12 +43,12 @@ const pristine = new Pristine(form, {
 });
 
 // Валидация заголовка
-const validateTitle = (value) => value.length >= 30 && value.length <= 100;
+const validateTitle = (value) => value.length >= TITLE_MIN_LENGTH && value.length <= TITLE_MAX_LENGTH;
 
 pristine.addValidator(
   form.querySelector('#title'),
   validateTitle,
-  'Заголовок должен быть от 30 до 100 символов'
+  `Заголовок должен быть от ${TITLE_MIN_LENGTH} до ${TITLE_MAX_LENGTH} символов`
 );
 
 // Валидация слайдера
@@ -181,6 +185,7 @@ const setUserFormSubmit = (onSuccess, onFail) => {
 resetButton.addEventListener('click', () => {
   resetPriceSlider();
   resetMainMarker();
+  removePhoto();
 });
 
 export {adressField, setUserFormSubmit};

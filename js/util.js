@@ -45,6 +45,8 @@ const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const RERENDER_DELAY = 500;
 
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '1000';
@@ -66,4 +68,4 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export {getRandomNumber, getRandomArrayElement, getRandomArrayPart, isEscapeKey, showAlert, RERENDER_DELAY};
+export {getRandomNumber, getRandomArrayElement, getRandomArrayPart, isEscapeKey, showAlert, RERENDER_DELAY, FILE_TYPES};
