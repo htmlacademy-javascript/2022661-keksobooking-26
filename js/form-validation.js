@@ -126,15 +126,15 @@ const getRoomsErrorMessage = () => {
 pristine.addValidator(roomsField, validateRooms, getRoomsErrorMessage);
 pristine.addValidator(capacityField, validateRooms);
 
-roomsField.addEventListener('change', (evt) => {
-  evt.preventDefault();
-  pristine.validate(roomsField);
-});
+const updateRoomsField = (field) => {
+  field.addEventListener('change', (evt) => {
+    evt.preventDefault();
+    pristine.validate(roomsField);
+  });
+};
 
-capacityField.addEventListener('change', (evt) => {
-  evt.preventDefault();
-  pristine.validate(roomsField);
-});
+updateRoomsField(roomsField);
+updateRoomsField(capacityField);
 
 // Валидация времени выезда и заезда
 const timeHandler = (evt) => {
