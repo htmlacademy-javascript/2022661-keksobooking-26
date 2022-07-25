@@ -1,7 +1,8 @@
 import {TYPES_OF_HOUSE_ON_RUSSIAN} from './popup.js';
-import {resetMainMarker} from './map.js';
+import {map, resetMainMarker, MAIN_COORDINATES} from './map.js';
 import {sendData} from './api.js';
 import {removePhoto} from './photo.js';
+import {cleanFilter} from './filter.js';
 
 const form = document.querySelector('.ad-form');
 const priceField = form.querySelector('#price');
@@ -169,6 +170,9 @@ const setUserFormSubmit = (onSuccess, onFail) => {
           evt.target.reset();
           resetPriceSlider();
           resetMainMarker();
+          removePhoto();
+          cleanFilter();
+          map.setView(MAIN_COORDINATES, 10);
           unblockSubmitButton();
         },
         () => {
@@ -186,6 +190,8 @@ resetButton.addEventListener('click', () => {
   resetPriceSlider();
   resetMainMarker();
   removePhoto();
+  cleanFilter();
+  map.setView(MAIN_COORDINATES, 10);
 });
 
 export {adressField, setUserFormSubmit};

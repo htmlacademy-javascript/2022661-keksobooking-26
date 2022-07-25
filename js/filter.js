@@ -68,4 +68,16 @@ const filterHandler = () => {
   filterform.addEventListener('change', debounce(filterChange, RERENDER_DELAY));
 };
 
-export {filterAdsOnMap, filterHandler, filterChange, saveAndRenderAds};
+//Очистка фильтра
+const cleanFilter = () => {
+  typeOfHouseFilter.value = DEFAULT_VALUE;
+  priceFilter.value = DEFAULT_VALUE;
+  roomsFilter.value = DEFAULT_VALUE;
+  guestsFilter.value = DEFAULT_VALUE;
+  featuresFilters.forEach((featuresFilter) => {
+    featuresFilter.checked = false;
+  });
+  filterChange();
+};
+
+export {filterAdsOnMap, filterHandler, filterChange, saveAndRenderAds, cleanFilter};
