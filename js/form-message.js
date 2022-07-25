@@ -10,18 +10,18 @@ const successMessage = successMessageTemplate.cloneNode(true);
 const errorMessage = errorMessageTemplate.cloneNode(true);
 const pageBody = document.querySelector('body');
 
-const closeMessage = () => {
+const messageCloseHandler = () => {
   successMessage.classList.add('hidden');
   errorMessage.classList.add('hidden');
 
-  document.removeEventListener('click', closeMessage);
+  document.removeEventListener('click', messageCloseHandler);
   document.removeEventListener('keydown', messageEscKeydownHandler);
 };
 
 function messageEscKeydownHandler (evt) {
   if(isEscapeKey(evt)) {
     evt.preventDefault();
-    closeMessage();
+    messageCloseHandler();
   }
 }
 
@@ -30,7 +30,7 @@ const openSuccessMessage = () => {
   successMessage.classList.remove('hidden');
 
   document.addEventListener('keydown', messageEscKeydownHandler);
-  document.addEventListener('click', closeMessage);
+  document.addEventListener('click', messageCloseHandler);
 };
 
 const openErrorMessage = () => {
@@ -38,7 +38,7 @@ const openErrorMessage = () => {
   errorMessage.classList.remove('hidden');
 
   document.addEventListener('keydown', messageEscKeydownHandler);
-  document.addEventListener('click', closeMessage);
+  document.addEventListener('click', messageCloseHandler);
 };
 
 export {openSuccessMessage, openErrorMessage};

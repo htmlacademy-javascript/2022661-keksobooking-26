@@ -35,7 +35,8 @@ const mainMarker = L.marker( MAIN_COORDINATES, {
 mainMarker.addTo(map);
 
 mainMarker.on('moveend', (evt) => {
-  adressField.value = evt.target.getLatLng();
+  const coordinates = evt.target.getLatLng();
+  adressField.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
 });
 
 const resetMainMarker = () => {
@@ -71,4 +72,4 @@ const renderAds = (ads) => {
   });
 };
 
-export {renderAds, resetMainMarker, clearLayersOnMap, MAIN_COORDINATES};
+export {map, renderAds, resetMainMarker, clearLayersOnMap, MAIN_COORDINATES};
